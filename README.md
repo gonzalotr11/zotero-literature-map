@@ -8,10 +8,11 @@ An open-source, browser-based tool for transforming Zotero CSV exports into tran
 
 ### ¿Qué problema resuelve?
 
-Zotero organiza referencias, pero una revisión académica también necesita mostrar cómo se relacionan los artículos con teorías, exposiciones, mecanismos, resultados y funciones argumentales. Zotero Literature Map separa cuidadosamente dos operaciones:
+Zotero organiza referencias, pero una revisión académica también necesita descubrir vocabularios compartidos y mostrar cómo se relacionan los artículos con teorías, exposiciones, mecanismos, resultados y funciones argumentales. Zotero Literature Map separa cuidadosamente tres operaciones:
 
 1. **Descripción automática:** metadatos, años, fuentes, DOI, resúmenes y etiquetas.
-2. **Interpretación sustantiva:** una matriz de codificación humana, explícita y revisable.
+2. **Organización textual local:** clusters exploratorios calculados con títulos, resúmenes y etiquetas.
+3. **Interpretación sustantiva:** una matriz de codificación humana o asistida, explícita y revisable.
 
 La herramienta no usa modelos externos ni envía archivos a un servidor. Todo el procesamiento ocurre en el navegador.
 
@@ -21,7 +22,21 @@ La herramienta no usa modelos externos ni envía archivos a un servidor. Todo el
 2. Haz clic derecho y elige **Exportar colección**.
 3. Selecciona **CSV** y guarda el archivo.
 4. Abre el sitio y selecciona **Importar CSV de Zotero**.
-5. Para construir el mapa conceptual, descarga la plantilla de codificación, complétala y usa **Añadir coding.csv**.
+5. Explora los clusters textuales generados automáticamente.
+6. Para construir un mapa conceptual, descarga la plantilla de codificación, complétala y usa **Añadir coding.csv**.
+
+### Análisis textual local (`v0.2.0-dev`)
+
+Al importar un único CSV, la aplicación:
+
+- combina título, resumen y etiquetas disponibles;
+- normaliza y tokeniza el texto en español e inglés;
+- calcula vectores TF-IDF y similitud coseno;
+- propone un número acotado de clusters;
+- asigna nombres exploratorios mediante los términos más distintivos;
+- estima la centralidad textual de cada referencia dentro de su cluster.
+
+El procedimiento es determinista y ocurre completamente en el navegador. Los nombres generados describen vocabulario compartido: no constituyen teorías, mecanismos ni clasificaciones sustantivas validadas. Al añadir `coding.csv`, los núcleos conceptuales reemplazan a los clusters textuales como organización principal.
 
 ### Ejecutar localmente
 
@@ -88,6 +103,7 @@ Los archivos elegidos mediante el navegador se procesan localmente. Aun así, cu
 Zotero Literature Map converts a Zotero CSV export into an interactive evidence map while keeping metadata extraction separate from substantive interpretation.
 
 - **Descriptive mode** works directly from Zotero metadata.
+- **Local text mode** generates exploratory TF-IDF clusters from titles, abstracts, and tags.
 - **Substantive mode** joins an explicit, editable `coding.csv` file.
 - Processing is local to the browser; no bibliography is uploaded.
 - No build system or runtime dependency is required.
