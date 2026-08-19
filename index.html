@@ -1,0 +1,88 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="description" content="Transforma exportaciones CSV de Zotero en mapas de literatura transparentes y explorables.">
+  <title>Zotero Literature Map</title>
+  <link rel="stylesheet" href="assets/app.css">
+</head>
+<body>
+  <header class="hero">
+    <p class="eyebrow">OPEN SOURCE · LOCAL-FIRST</p>
+    <h1>Convierte tu biblioteca de Zotero en un mapa de evidencia</h1>
+    <p class="lead">Importa metadatos, añade una codificación conceptual auditable y explora núcleos, mecanismos y vacíos sin enviar tus archivos a un servidor.</p>
+    <div class="hero-actions">
+      <label class="primary" for="zotero-file">Importar CSV de Zotero</label>
+      <input id="zotero-file" type="file" accept=".csv,text/csv" hidden>
+      <label class="secondary" for="coding-file">Añadir coding.csv</label>
+      <input id="coding-file" type="file" accept=".csv,text/csv" hidden>
+      <button id="load-example" class="secondary">Cargar ejemplo ELPI</button>
+    </div>
+    <p id="privacy-note" class="privacy">Los archivos se procesan exclusivamente en tu navegador.</p>
+  </header>
+
+  <main>
+    <section id="empty-state" class="onboarding">
+      <div>
+        <span>01</span><h2>Exporta desde Zotero</h2>
+        <p>Selecciona una colección y usa <b>Exportar colección → CSV</b>. Incluye resúmenes y etiquetas cuando estén disponibles.</p>
+      </div>
+      <div>
+        <span>02</span><h2>Explora los metadatos</h2>
+        <p>La vista descriptiva funciona sin codificación adicional: años, revistas, tipos, DOI, resúmenes y palabras clave.</p>
+      </div>
+      <div>
+        <span>03</span><h2>Añade interpretación</h2>
+        <p>Descarga la plantilla, codifica teoría, exposición, mecanismos y función, y vuelve a importarla.</p>
+      </div>
+    </section>
+
+    <section id="workspace" hidden>
+      <nav class="tabs" aria-label="Secciones">
+        <a href="#overview">Panorama</a><a href="#conceptual-map">Mapa</a><a href="#explorer">Corpus</a><a href="#quality">Calidad</a>
+        <button id="download-template">Descargar plantilla de codificación</button>
+      </nav>
+
+      <section id="overview" class="section">
+        <div class="section-head"><div><p class="kicker">PANORAMA</p><h2 id="library-title">Tu biblioteca</h2></div><p id="library-summary"></p></div>
+        <div id="stat-cards" class="stats"></div>
+        <div class="overview-grid">
+          <article><h3>Publicaciones por año</h3><div id="year-chart" class="chart"></div></article>
+          <article><h3>Núcleos sustantivos</h3><div id="cluster-chart" class="chart"></div><p id="coding-hint" class="hint"></p></article>
+        </div>
+      </section>
+
+      <section id="conceptual-map" class="section map-section">
+        <div class="section-head"><div><p class="kicker">ARQUITECTURA ANALÍTICA</p><h2>De la exposición al resultado</h2></div><p>Esta secuencia es una guía de lectura. No transforma asociaciones o mediaciones en mecanismos causales.</p></div>
+        <div class="flow">
+          <button data-field="Exposure"><small>01 · EXPOSICIÓN</small><b>Condición o shock</b><span id="flow-exposure">Ingreso, empleo, crisis</span></button><i>→</i>
+          <button data-field="Resources"><small>02 · RECURSOS</small><b>Capacidad de absorción</b><span id="flow-resources">Activos, ahorro, redes</span></button><i>→</i>
+          <button data-field="Mechanism"><small>03 · PROCESOS</small><b>Mecanismo propuesto</b><span id="flow-mechanism">Estrés, inversión, ajuste</span></button><i>→</i>
+          <button data-field="Outcome"><small>04 · RESULTADOS</small><b>Consecuencias</b><span id="flow-outcome">Salud, cognición, educación</span></button>
+        </div>
+      </section>
+
+      <section id="explorer" class="section">
+        <div class="section-head"><div><p class="kicker">EXPLORADOR</p><h2>Artículos y función argumental</h2></div><p id="visible-count"></p></div>
+        <div class="filters">
+          <input id="search" type="search" placeholder="Buscar título, autor, mecanismo…" aria-label="Buscar artículos">
+          <select id="cluster-filter" aria-label="Filtrar por núcleo"><option value="">Todos los núcleos</option></select>
+          <select id="relevance-filter" aria-label="Filtrar por relevancia"><option value="">Toda relevancia</option></select>
+          <select id="basis-filter" aria-label="Filtrar por base"><option value="">Toda base de codificación</option><option value="abstract">Con resumen</option><option value="metadata">Solo metadatos</option></select>
+          <button id="clear-filters">Limpiar</button>
+        </div>
+        <div class="explorer-grid"><div id="article-list" class="article-list"></div><aside id="article-detail" aria-live="polite"></aside></div>
+      </section>
+
+      <section id="quality" class="section quality">
+        <div><p class="kicker">AUDITORÍA</p><h2>La visualización también debe mostrar sus límites</h2></div>
+        <div id="quality-cards" class="quality-grid"></div>
+        <div class="levels"><h3>Niveles de afirmación</h3><ol><li><b>Mencionado</b><span>El artículo propone un proceso.</span></li><li><b>Asociado</b><span>Las variables covarían.</span></li><li><b>Modelado</b><span>El proceso entra al modelo.</span></li><li><b>Identificado</b><span>El diseño respalda una interpretación causal.</span></li></ol></div>
+      </section>
+    </section>
+  </main>
+  <footer><span>Zotero Literature Map</span><a href="README.md" id="repo-link">Código y documentación</a></footer>
+  <script type="module" src="src/app.js"></script>
+</body>
+</html>
