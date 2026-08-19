@@ -11,7 +11,7 @@
   <header class="hero">
     <p class="eyebrow">OPEN SOURCE · LOCAL-FIRST</p>
     <h1>Convierte tu biblioteca de Zotero en un mapa de evidencia</h1>
-    <p class="lead">Importa metadatos, añade una codificación conceptual auditable y explora núcleos, mecanismos y vacíos sin enviar tus archivos a un servidor.</p>
+    <p class="lead">Sube un único CSV de Zotero y obtén clusters textuales exploratorios en tu navegador. Después puedes añadir una codificación conceptual auditable.</p>
     <div class="hero-actions">
       <label class="primary" for="zotero-file">Importar CSV de Zotero</label>
       <input id="zotero-file" type="file" accept=".csv,text/csv" hidden>
@@ -29,8 +29,8 @@
         <p>Selecciona una colección y usa <b>Exportar colección → CSV</b>. Incluye resúmenes y etiquetas cuando estén disponibles.</p>
       </div>
       <div>
-        <span>02</span><h2>Explora los metadatos</h2>
-        <p>La vista descriptiva funciona sin codificación adicional: años, revistas, tipos, DOI, resúmenes y palabras clave.</p>
+        <span>02</span><h2>Genera un mapa local</h2>
+        <p>La aplicación compara títulos y resúmenes, propone clusters textuales y detecta artículos representativos sin enviar datos a un servidor.</p>
       </div>
       <div>
         <span>03</span><h2>Añade interpretación</h2>
@@ -49,7 +49,7 @@
         <div id="stat-cards" class="stats"></div>
         <div class="overview-grid">
           <article><h3>Publicaciones por año</h3><div id="year-chart" class="chart"></div></article>
-          <article><h3>Núcleos sustantivos</h3><div id="cluster-chart" class="chart"></div><p id="coding-hint" class="hint"></p></article>
+          <article><h3>Clusters y núcleos</h3><div id="cluster-chart" class="chart"></div><p id="coding-hint" class="hint"></p></article>
         </div>
       </section>
 

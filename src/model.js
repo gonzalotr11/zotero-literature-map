@@ -40,5 +40,7 @@ export function shortAuthor(author){
 
 export function summarize(records){
   const n=records.length;const valid=x=>records.filter(x).length;
-  return {n,abstracts:valid(r=>r.Abstract),doi:valid(r=>r.DOI),coded:valid(r=>r.Cluster),years:new Set(records.filter(r=>r.Year!=="s/f").map(r=>r.Year)).size,journals:new Set(records.filter(r=>r.Publication).map(r=>r.Publication)).size};
+  return {n,abstracts:valid(r=>r.Abstract),doi:valid(r=>r.DOI),coded:valid(r=>r.Cluster),textClusters:new Set(records.map(r=>r.TextCluster).filter(Boolean)).size,years:new Set(records.filter(r=>r.Year!=="s/f").map(r=>r.Year)).size,journals:new Set(records.filter(r=>r.Publication).map(r=>r.Publication)).size};
 }
+
+export const effectiveCluster=record=>record.Cluster||record.TextCluster||"Sin clasificar";

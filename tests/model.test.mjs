@@ -3,6 +3,7 @@ import assert from "node:assert/strict";
 import fs from "node:fs";
 import {parseCSV,toCSV} from "../src/csv.js";
 import {normalizeZotero,mergeCoding,codingTemplate,summarize} from "../src/model.js";
+import {analyzeLocally,suggestedClusterCount,tokenize} from "../src/analysis.js";
 
 const zotero=parseCSV(fs.readFileSync(new URL("../data/zotero-example.csv",import.meta.url),"utf8")).map(normalizeZotero);
 const coding=parseCSV(fs.readFileSync(new URL("../data/coding-example.csv",import.meta.url),"utf8"));
@@ -38,4 +39,21 @@ test("exports a round-trippable coding template",()=>{
 test("handles quoted commas and escaped quotes",()=>{
   const parsed=parseCSV('"Title","Note"\n"A, B","Said ""yes"""\n');
   assert.deepEqual(parsed,[{Title:"A, B",Note:'Said "yes"'}]);
+});
+
+test("tokenizes bilingual bibliographic text without common stopwords",()=>{
+  assert.deepEqual(tokenize("The stress and la inseguridad económica"),["stress","inseguridad","economica"]);
+});
+
+test("creates deterministic local clusters without dropping Zotero records",()=>{
+  const analyzed=analyzeLocally(zotero,{clusters:3});
+  assert.equal(analyzed.length,zotero.length);
+  assert.equal(new Set(analyzed.map(r=>r.TextCluster)).size,3);
+  assert.ok(analyzed.every(r=>r.TextCluster&&r.AnalysisBasis));
+  assert.deepEqual(analyzeLocally(zotero,{clusters:3}).map(r=>r.TextCluster),analyzed.map(r=>r.TextCluster));
+});
+
+test("suggests a bounded cluster count",()=>{
+  assert.equal(suggestedClusterCount(2),1);
+  assert.ok(suggestedClusterCount(101)>=5&&suggestedClusterCount(101)<=10);
 });
